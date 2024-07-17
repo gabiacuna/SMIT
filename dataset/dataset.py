@@ -13,45 +13,23 @@ from __future__ import annotations
 
 import collections.abc
 from collections.abc import Callable, Sequence
-from multiprocessing.managers import ListProxy
-from multiprocessing.pool import ThreadPool
-from pathlib import Path
-from typing import IO, TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 
-import numpy as np
-import torch
-from torch.multiprocessing import Manager
-from torch.serialization import DEFAULT_PROTOCOL
 from torch.utils.data import Dataset as _TorchDataset
 from torch.utils.data import Subset
 
-from monai.data.meta_tensor import MetaTensor
-from monai.data.utils import SUPPORTED_PICKLE_MOD, convert_tables_to_dicts, pickle_hashing
-from monai.transforms import (
-    Compose,
-    Randomizable,
-    RandomizableTrait,
-    Transform,
-    apply_transform,
-    convert_to_contiguous,
-    reset_ops_id,
-)
-from monai.utils import MAX_SEED, convert_to_tensor, get_seed, look_up_option, min_version, optional_import
-from monai.utils.misc import first
+from monai.utils import min_version, optional_import
 
 import scipy.io
-
-if TYPE_CHECKING:
-    from tqdm import tqdm
-
-    has_tqdm = True
-else:
-    tqdm, has_tqdm = optional_import("tqdm", "4.47.0", min_version, "tqdm")
 
 cp, _ = optional_import("cupy")
 lmdb, _ = optional_import("lmdb")
 pd, _ = optional_import("pandas")
 kvikio_numpy, _ = optional_import("kvikio.numpy")
+
+# Helper function to apply a transform
+def apply_transform(transform, data):
+    return transform(data)
 
 class Dataset(_TorchDataset):
     """
@@ -86,10 +64,6 @@ class Dataset(_TorchDataset):
         if image_data is None:
             raise ValueError(f"'image' key not found in {file_path}")
         return image_data
-    
-    # Helper function to apply a transform
-    def apply_transform(transform, data):
-        return transform(data)
 
     def _transform(self, index: int):
         """
