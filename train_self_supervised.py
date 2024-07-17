@@ -310,7 +310,7 @@ def main():
     with open(json_Path, 'r') as json_f:
         json_Data = json.load(json_f)
     
-    train_Data = [item['image'] for item in data['BIG_DLDS_64x64x64']]
+    train_Data = [item['image'] for item in json_Data['BIG_DLDS_64x64x64']]
 
     '''
     train_Data=json_Data['BIG_DLDS_64x64x64']
