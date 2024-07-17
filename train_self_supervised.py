@@ -16,9 +16,9 @@ import torch
 import argparse
 
 #Below for ibot
-from train_model import train_utils
+from SMIT.train_model import train_utils
 import torch.nn as nn
-from optimizers.lr_scheduler import LinearWarmupCosineAnnealingLR
+from SMIT.optimizers.lr_scheduler import LinearWarmupCosineAnnealingLR
 import torch.distributed as dist
 
 
@@ -47,8 +47,8 @@ from monai.transforms import (
     RandCoarseShuffled
 )
 
-from models.Trans import CONFIGS as CONFIGS_TM
-import models.Trans as Trans
+from SMIT.models.Trans import CONFIGS as CONFIGS_TM
+import SMIT.models.Trans as Trans
 import torch.nn.functional as F
 
 fig = plt.figure()
