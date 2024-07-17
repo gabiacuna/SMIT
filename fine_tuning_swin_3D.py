@@ -19,14 +19,14 @@ from monai.utils.enums import MetricReduction
 from monai.transforms import AsDiscrete,Activations,Compose
 
 from utils.data_utils import get_loader
-from SMIT.trainer import run_training
-from SMIT.optimizers.lr_scheduler import LinearWarmupCosineAnnealingLR
+from trainer import run_training
+from optimizers.lr_scheduler import LinearWarmupCosineAnnealingLR
 from functools import partial
 import argparse
 
-from SMIT.models.Trans import CONFIGS as CONFIGS_TM
+from models.Trans import CONFIGS as CONFIGS_TM
 
-import SMIT.models.Trans as Trans
+import models.Trans as Trans
 
 
 

@@ -16,9 +16,9 @@ import torch
 import argparse
 
 #Below for ibot
-from SMIT.train_model import train_utils
+from train_model import train_utils
 import torch.nn as nn
-from SMIT.optimizers.lr_scheduler import LinearWarmupCosineAnnealingLR
+from optimizers.lr_scheduler import LinearWarmupCosineAnnealingLR
 import torch.distributed as dist
 
 
@@ -47,8 +47,8 @@ from monai.transforms import (
     RandCoarseShuffled
 )
 
-from SMIT.models.Trans import CONFIGS as CONFIGS_TM
-import SMIT.models.Trans as Trans
+from models.Trans import CONFIGS as CONFIGS_TM
+import models.Trans as Trans
 import torch.nn.functional as F
 
 fig = plt.figure()
@@ -308,13 +308,13 @@ def main():
     with open(json_Path, 'r') as json_f:
         json_Data = json.load(json_f)
 
-    train_Data=json_Data['training_tcia_pancreas_82']
+    train_Data=json_Data['BIG_DLDS_64x64x64']
     
 
     for idx, each_d in enumerate(train_Data):
         train_Data[idx]['image'] = os.path.join(data_Root, train_Data[idx]['image'])
 
-    
+
 
     print('Total Number of Training Data Samples: {}'.format(len(train_Data)))
     #print(train_Data)
