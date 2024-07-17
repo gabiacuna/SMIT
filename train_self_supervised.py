@@ -30,7 +30,7 @@ from torch.nn import L1Loss
 from monai.utils import set_determinism, first
 from monai.networks.nets import ViTAutoEnc
 from monai.losses import ContrastiveLoss
-from monai.data import DataLoader, Dataset
+from monai.data import DataLoader#, Dataset
 from monai import transforms, data
 from monai.transforms import (
     LoadImaged,
@@ -50,6 +50,8 @@ from monai.transforms import (
 from models.Trans import CONFIGS as CONFIGS_TM
 import models.Trans as Trans
 import torch.nn.functional as F
+
+from dataset.dataset import Dataset
 
 fig = plt.figure()
 ax = fig.add_subplot(211)
@@ -272,12 +274,12 @@ def main():
     ibot_head_share=args.ibot_head_share
 
     # your data path
-    data_Root = os.path.normpath('')
+    data_Root = os.path.normpath('/content/SMIT/dataset/BIG_DLDS_64x64x64')
     # the json fine 
     # you can have a quick test using the tcia pancreas data which have 82 data 
     # https://wiki.cancerimagingarchive.net/display/Public/Pancreas-CT#22514040622363b40c0a4da9bf1c2c728d90d54f
     
-    json_Path = os.path.normpath('ssl_train.json')
+    json_Path = os.path.normpath('/content/SMIT/dataset/dataset_BIG_DLDS.json')
 
    
         
@@ -307,12 +309,15 @@ def main():
     # Load Json & Append Root Path
     with open(json_Path, 'r') as json_f:
         json_Data = json.load(json_f)
-
-    train_Data=json_Data['BIG_DLDS_64x64x64']
     
+    train_Data = [item['image'] for item in data['BIG_DLDS_64x64x64']]
+
+    '''
+    train_Data=json_Data['BIG_DLDS_64x64x64']
 
     for idx, each_d in enumerate(train_Data):
         train_Data[idx]['image'] = os.path.join(data_Root, train_Data[idx]['image'])
+    '''
 
 
 
